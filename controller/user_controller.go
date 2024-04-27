@@ -17,8 +17,8 @@ func NewUserController(service service.UserService) *UserController {
 
 func (controller *UserController) Route(g *echo.Group) {
     g.GET("", controller.AllUsers)
-    g.GET("/", controller.AllUsers)
     g.POST("", controller.CreateUser)
-    g.POST("/", controller.CreateUser)
     g.GET("/:id", controller.ViewUser)
+    g.PUT("/:id", controller.UpdateUser)
+    g.DELETE("/:id", controller.DestroyUser)
 }

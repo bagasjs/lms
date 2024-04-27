@@ -41,3 +41,21 @@ func (controller *UserController) CreateUser(c echo.Context) error {
 
     return c.JSON(http.StatusOK, model.ResponseOk(createUserResponse, "User created"))
 }
+
+func (controller *UserController) UpdateUser(c echo.Context) error {
+    updateUserRequest := model.UpdateUserRequest{}
+    if err := c.Bind(&updateUserRequest); err != nil {
+        return c.JSON(http.StatusBadRequest, model.ResponseBadRequest("Invalid form body"))
+    }
+    updateUserResponse, err := controller.userService.Update(updateUserRequest)
+    if err != nil {
+        errorMsg := fmt.Sprintf("Failed to update user due to \"%s\"", err);
+        return c.JSON(http.StatusBadRequest, model.ResponseBadRequest(errorMsg))
+    }
+
+    return c.JSON(http.StatusOK, model.ResponseOk(updateUserResponse, "User updated"))
+}
+
+func (controller *UserController) DestroyUser(c echo.Context) error {
+    return c.JSON(http.StatusOK, "Hello, World")
+}

@@ -24,6 +24,19 @@ func (repo *userRepositoryImplSQLite3) Insert(user entity.User) error {
     return nil
 }
 
+func (repo *userRepositoryImplSQLite3) Update(user entity.User) error {
+	stmt, err := repo.db.Prepare("UPDATE users SET email=?, name=?, password=? WHERE id=?")
+    if err != nil {
+        return err
+    }
+	defer stmt.Close()
+    _, err = stmt.Exec(user.Email, user.Name, user.Password, user.ID)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
 func (repo *userRepositoryImplSQLite3) FindAll() (users []entity.User, err error) {
     rows, err := repo.db.Query("SELECT * FROM users")
     if err != nil {

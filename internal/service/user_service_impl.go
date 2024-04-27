@@ -28,6 +28,23 @@ func (service *userServiceImpl) Create(request model.CreateUserRequest) (respons
     return response, err
 }
 
+func (serv *userServiceImpl) Update(request model.UpdateUserRequest) (response model.GenericUserResponse, err error) {
+    user := entity.User{ 
+        ID: request.ID, 
+        Name: request.Name, 
+        Password: request.Password, 
+        Email: request.Email,
+    }
+    err = serv.UserRepository.Update(user)
+    if err != nil {
+        return response, err
+    }
+    response.Name = user.Name
+    response.Email = user.Email
+    response.ID = user.ID
+    return response, err
+}
+
 func (service *userServiceImpl) List() (responses []model.GenericUserResponse, err error) {
 	users, err := service.UserRepository.FindAll()
 	if err != nil {
